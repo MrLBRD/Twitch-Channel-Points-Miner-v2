@@ -1,6 +1,6 @@
 @echo off
 set /p USERNAME="Username : "
-echo Your name is: %USERNAME%
+echo Username is: %USERNAME%
 
 start chrome "https://www.twitch.tv/%USERNAME%"
 start firefox.exe "https://www.twitch.tv/%USERNAME%"
