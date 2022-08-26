@@ -9,7 +9,7 @@ from dateutil import parser
 from TwitchChannelPointsMiner.classes.entities.EventPrediction import EventPrediction
 from TwitchChannelPointsMiner.classes.entities.Message import Message
 from TwitchChannelPointsMiner.classes.entities.Raid import Raid
-from TwitchChannelPointsMiner.classes.Settings import Events
+from TwitchChannelPointsMiner.classes.Settings import Events, EmojisSettings
 from TwitchChannelPointsMiner.classes.TwitchWebSocket import TwitchWebSocket
 from TwitchChannelPointsMiner.constants import WEBSOCKET
 from TwitchChannelPointsMiner.utils import (
@@ -188,10 +188,43 @@ class WebSocketsPool:
                             earned = message.data["point_gain"]["total_points"]
                             reason_code = message.data["point_gain"]["reason_code"]
 
+                            def whatEmoji(reason_code):
+                                match reason_code:
+                                    case 'RAID':
+                                        return ':rocket:'
+                                    case 'CLAIM':
+                                        return ':moneybag:'
+                                    case 'WATCH':
+                                        return ':rocket:'
+                                    case 'WATCH_STREAK':
+                                        return ':tickets:'
+                                    case _:
+                                        return ':information_source:'
+                            def whoStreamer(streamerName):
+                                match streamerName:
+                                    case 'iti63':
+                                        return '👽 Iti'
+                                    case 'skarab42':
+                                        return '👨‍💻 Skarab'
+                                    case 'aypierre':
+                                        return '🌳 Aypierre'
+                                    case 'lfpoulain':
+                                        return '🛠️ LFPoulain'
+                                    case 'paiheme':
+                                        return '👹 Paiheme'
+                                    case 'boitameu':
+                                        return '🐮 Boitameu'
+                                    case 'orann_':
+                                        return '👨‍🚀 Orann'
+                                    case 'roi_louis':
+                                        return '👑 roi_louis'
+                                    case _:
+                                        return streamerName
+                                    
                             logger.info(
-                                f"+{earned} → {ws.streamers[streamer_index]} - Reason: {reason_code}.",
+                                f"**{reason_code}** _(+{earned})_   =>   {whoStreamer(ws.streamers[streamer_index])}",
                                 extra={
-                                    "emoji": ":rocket:",
+                                    "emoji": whatEmoji(reason_code),
                                     "event": Events.get(f"GAIN_FOR_{reason_code}"),
                                 },
                             )
