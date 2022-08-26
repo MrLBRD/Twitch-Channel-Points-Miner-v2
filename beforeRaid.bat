@@ -2,6 +2,9 @@
 set /p USERNAME="Username : "
 echo Your name is: %USERNAME%
 
+start chrome "https://www.twitch.tv/%USERNAME%"
+ECHO chrome lancé
+TIMEOUT /T 3 /NOBREAK
 start firefox.exe "https://www.twitch.tv/%USERNAME%"
 ECHO firefox lancé
 TIMEOUT /T 3 /NOBREAK
